@@ -39,7 +39,7 @@ divide.addEventListener("click", function () {
 });
 
 multiply.addEventListener("click", function () {
-    let content = multiply.textContent;
+  let content = multiply.textContent;
   userInputArray.push(content);
   screen.innerText = userInputArray[userInputArray.length - 1];
 });
@@ -57,8 +57,16 @@ goBack.addEventListener("click", function () {
 //Add event listeners to number buttons
 for (let i = 0; i < numberBox.length; i++) {
   numberBox[i].addEventListener("click", function () {
-    userInputArray.push(numberBox[i].textContent);
-    console.log(userInputArray);
+    if (userInputArray.length === 0 ||
+	userInputArray[userInputArray.length - 1] === "+" ||
+	userInputArray[userInputArray.length - 1] === "-" ||
+	userInputArray[userInputArray.length - 1] === "x" ||
+	userInputArray[userInputArray.length - 1] === "÷") {
+      userInputArray.push(numberBox[i].textContent);
+    } else {
+      userInputArray[userInputArray.length - 1] += numberBox[i].textContent;
+    }
+
     screen.innerText = userInputArray[userInputArray.length - 1];
   });
 }
