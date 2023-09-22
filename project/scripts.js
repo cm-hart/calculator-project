@@ -40,7 +40,7 @@ multiply.addEventListener("click", function () {
 });
 
 clear.addEventListener("click", function () {
-  //reset the array to empty
+  // reset all our values
   mathOperator = "";
   value1 = 0;
   value2 = 0;
