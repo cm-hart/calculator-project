@@ -12,11 +12,9 @@ let screen = document.querySelector(".screen");
 
 let numberBox = document.getElementsByClassName("number-button");
 
-let value1 = 0;
-let value2 = 0;
-let mathOperator;
-
-let userInputArray = [];
+let value1 = "";
+let value2 = "";
+let mathOperator = "";
 
 //Event Listeners
 answer.addEventListener("click", getValuesFromArray);
@@ -25,51 +23,75 @@ answer.addEventListener("click", getValuesFromArray);
 
 add.addEventListener("click", function () {
   let content = add.textContent;
-  userInputArray.push(content);
+  mathOperator = content;
 });
 
 subtract.addEventListener("click", function () {
   let content = subtract.textContent;
-  userInputArray.push(content);
+  mathOperator = content;
 });
 
 divide.addEventListener("click", function () {
   let content = divide.textContent;
-  userInputArray.push(content);
+  mathOperator = content;
 });
 
 multiply.addEventListener("click", function () {
-    let content = multiply.textContent;
-  userInputArray.push(content);
-  screen.innerText = userInputArray[userInputArray.length - 1];
+  let content = multiply.textContent;
+  mathOperator = content;
 });
 
 clear.addEventListener("click", function () {
   //reset the array to empty
-  userInputArray = [];
+  mathOperator = "";
+  value1 = 0;
+  value2 = 0;
+  screen.textContent = "0";
 });
 
 goBack.addEventListener("click", function () {
-  userInputArray.pop();
-  console.log(userInputArray);
+  // we go back through the possible scenarios, dealing with each one
+
+  // if the second value is multiple digits, then lop the last digit off
+  if (value2.length > 1) {
+    value2 = value2.slice(0, -1);
+    sceen.textContent = value2;
+    // if the value is single digit, make it no value and set the screen to 0
+  } else if (value2.length === 1) {
+    value2 = "";
+    screen.textContent = "0";
+    // if neither of those were true, then there is no second value, so we move on to the operator
+    // if the operator is set, then set it to no value (going back to the first number)
+  } else if (mathOperator !== "") {
+    mathOperator = "";
+    // if the operator was already no value, then we move on to the first number
+    // if the first number is multiple digits, then lop the last digit off (and set the screen to the new value)
+  } else if (value1.length > 1) {
+    value1 = value1.slice(0, -1);
+    screen.textContent = value1;
+    // if the first number is single digit, make it no value and set the screen to 0
+  } else if (value1.length === 1) {
+    value1 = "";
+    screen.textContent = "0";
+  }
 });
 
 //Add event listeners to number buttons
 for (let i = 0; i < numberBox.length; i++) {
   numberBox[i].addEventListener("click", function () {
-    userInputArray.push(numberBox[i].textContent);
-    console.log(userInputArray);
-    screen.innerText = userInputArray[userInputArray.length - 1];
+    let content = numberBox[i].textContent;
+    // if there was no operator yet, then add the number to the first value
+    if (mathOperator === "") {
+      value1 += content;
+      screen.textContent = value1;
+      // if there was an operator, then add the number to the second value
+    } else {
+      value2 += content;
+      screen.textContent = value2;
+    }
   });
 }
 
-//Use the array to get the first number, operator and second number
-function getValuesFromArray() {
-  value1 = userInputArray[0];
-  mathOperator = userInputArray[1];
-  value2 = userInputArray[2];
-  console.log(value1, value2, mathOperator);
-}
 
 //Calculate the answer
 function doMath(value1Param, value2Param, operator) {
