@@ -17,9 +17,7 @@ let value2 = "";
 let mathOperator = "";
 
 //Event Listeners
-answer.addEventListener("click", getValuesFromArray);
-
-// In the event listeners for the math operators, can you update the text for the screen element to show the user what is being typed into the top section? And then have the doMath function update with the answer?
+answer.addEventListener("click", calculate);
 
 add.addEventListener("click", function () {
   let content = add.textContent;
@@ -92,17 +90,37 @@ for (let i = 0; i < numberBox.length; i++) {
   });
 }
 
+// this function does the math, serving as a "helper function" for the calculate function
 
-//Calculate the answer
 function doMath(value1Param, value2Param, operator) {
   if (operator === "+") {
     return Number(value1Param) + Number(value2Param);
   } else if (operator === "-") {
     answer = value1Param - value2Param;
-    screen.textContent = answer;
   } else if (operator === "x") {
     return value1Param * value2Param;
   } else {
-    return value1Param / value2Param;
+    // avoid long decimals by rounding
+    // stretch goal would be to make decimals work!
+    return Math.round(value1Param / value2Param);
   }
+}
+
+function calculate() {
+  // if there is no operator or no second value, then there is nothing to calculate
+  if (mathOperator === "" || value2 === '') {
+    // return with no value just ends the function, skipping the rest of the code
+    return;
+  }
+
+  // if we didn't return, there must be an operator and a second value, so we do the math
+  let answer = doMath(value1, value2, mathOperator);
+
+  // we set the screen to the answer
+  screen.textContent = answer;
+
+  // reset all our values
+  value1 = '';
+  value2 = "";
+  mathOperator = "";
 }
