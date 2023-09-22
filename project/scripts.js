@@ -94,10 +94,10 @@ for (let i = 0; i < numberBox.length; i++) {
 
 function doMath(value1Param, value2Param, operator) {
   if (operator === "+") {
-    return Number(value1Param) + Number(value2Param);
+    return value1Param + value2Param;
   } else if (operator === "-") {
-    answer = value1Param - value2Param;
-  } else if (operator === "x") {
+    return value1Param - value2Param;
+  } else if (operator === "×") {
     return value1Param * value2Param;
   } else {
     // avoid long decimals by rounding
@@ -114,7 +114,7 @@ function calculate() {
   }
 
   // if we didn't return, there must be an operator and a second value, so we do the math
-  let answer = doMath(value1, value2, mathOperator);
+  let answer = doMath(Number(value1), Number(value2), mathOperator);
 
   // we set the screen to the answer
   screen.textContent = answer;
